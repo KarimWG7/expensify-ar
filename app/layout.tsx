@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={cairo.variable}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
-          <Toaster position="top-center" dir="rtl" />
+          <Toaster position="top-center" dir="rtl" richColors />
         </ThemeProvider>
       </body>
     </html>

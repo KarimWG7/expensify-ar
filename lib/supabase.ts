@@ -1,14 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "./supabase/client";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const supabase = createClient();
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Re-export types if they are still needed and valid,
+// or import them from where they are defined if they were manual types.
+// The previous file had manual types. I should preserve them.
 
 export type User = {
   id: string;
   email: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   approved: boolean;
   created_at: string;
 };
@@ -27,7 +28,7 @@ export type Category = {
 export type PaymentMethod = {
   id: number;
   name: string;
-  type: 'user_defined' | 'admin_defined';
+  type: "user_defined" | "admin_defined";
   user_id: string | null;
   created_at: string;
 };

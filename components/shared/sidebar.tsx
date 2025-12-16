@@ -11,12 +11,12 @@ import {
   Users,
   Settings,
   LogOut,
-  Wallet
+  Wallet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
 import { useAppStore } from "@/lib/store";
 import { toast } from "sonner";
+import { signOut } from "@/actions/auth";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -69,10 +69,10 @@ export function Sidebar() {
   ];
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     setUser(null);
     toast.success("تم تسجيل الخروج بنجاح");
-    router.push("/");
+    // Action handles redirect
   };
 
   return (

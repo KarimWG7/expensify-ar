@@ -17,10 +17,7 @@ export function Topbar() {
       <div className="flex-1 max-w-md">
         <div className="relative">
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="البحث في المصروفات..."
-            className="pr-10"
-          />
+          <Input placeholder="البحث في المصروفات..." className="pr-10" />
         </div>
       </div>
       <div className="flex items-center gap-4">

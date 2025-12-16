@@ -1,9 +1,6 @@
-"use client";
-
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatCurrency } from "@/lib/utils";
+import AveragesTab from "@/components/reports/averages-tab";
+import DetailedTab from "@/components/reports/detaild-report-tab";
 
 export default function ReportsPage() {
   return (
@@ -17,38 +14,11 @@ export default function ReportsPage() {
         </TabsList>
 
         <TabsContent value="averages" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>المتوسط الشهري</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(0)}</div>
-                <p className="text-sm text-muted-foreground">متوسط المصروفات الشهرية خلال السنة</p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>المتوسط الأسبوعي</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(0)}</div>
-                <p className="text-sm text-muted-foreground">متوسط المصروفات الأسبوعية خلال الشهر</p>
-              </CardContent>
-            </Card>
-          </div>
+          <AveragesTab />
         </TabsContent>
 
         <TabsContent value="detailed">
-          <Card>
-            <CardHeader>
-              <CardTitle>التقارير المفصلة</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">قريبًا: تقارير مفصلة حسب الفترة الزمنية والفئات</p>
-            </CardContent>
-          </Card>
+          <DetailedTab />
         </TabsContent>
       </Tabs>
     </div>
