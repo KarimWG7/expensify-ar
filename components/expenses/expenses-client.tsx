@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ExpenseList } from "./expense-list";
 import { ExpenseDialog } from "./expense-dialog";
-import type { Expense } from "@/lib/supabase"; // Use local type if needed, or any
+import type { Expense, Category, PaymentMethod } from "@/lib/supabase";
 
 interface ExpensesClientProps {
-  initialExpenses: any[];
-  categories: any[];
-  paymentMethods: any[];
+  initialExpenses: Expense[];
+  categories: Category[];
+  paymentMethods: PaymentMethod[];
 }
 
 export function ExpensesClient({
