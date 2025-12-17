@@ -1,24 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
+// app/categories/page.tsx
+import { Suspense } from "react";
 import { getCategories } from "@/actions/categories";
 import { CategoriesClient } from "@/components/categories/categories-client";
 import { CategoryListSkeleton } from "@/components/categories/categories-list-skeleton";
 
+async function CategoriesData() {
+  const categories = await getCategories();
+
+  return <CategoriesClient initialCategories={categories || []} />;
+}
+
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getCategories()
-      .then((data) => setCategories(data || []))
-      .catch(() => {
-        // handle error if needed
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <CategoryListSkeleton />;
-
-  return <CategoriesClient initialCategories={categories} />;
+  return (
+    <Suspense fallback={<CategoryListSkeleton />}>
+      <CategoriesData />
+    </Suspense>
+  );
 }
