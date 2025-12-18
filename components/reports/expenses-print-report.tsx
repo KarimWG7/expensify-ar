@@ -16,7 +16,7 @@ type Props = {
 export const ExpensesPrintReport = forwardRef<HTMLDivElement, Props>(
   ({ year, totalAmount, categories, pieChartData }, ref) => {
     return (
-      <div ref={ref} dir="rtl" className="bg-white text-black p-6 space-y-6">
+      <div ref={ref} dir="rtl" className="bg-white text-black space-y-6 py-10">
         {/* TOTAL */}
         <Card>
           <CardHeader>
@@ -37,7 +37,7 @@ export const ExpensesPrintReport = forwardRef<HTMLDivElement, Props>(
           اجمالي المصروفات لكل فئة خلال سنه {year}
         </h2>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map((c: any) => (
             <CategorySummaryCard key={c.id} category={c} />
           ))}

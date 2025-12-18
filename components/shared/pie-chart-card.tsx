@@ -37,7 +37,6 @@ export default function ExpensesPieChart({ categoryData }: Props) {
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={(entry) => entry.name}
               outerRadius={80}
               dataKey="value"
             >

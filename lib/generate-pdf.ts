@@ -7,11 +7,12 @@ export async function generatePDF(
   year: number
 ) {
   if (!ref.current) return;
-
+  const margin = 10;
   const canvas = await html2canvas(ref.current, {
     scale: 2,
     useCORS: true,
     scrollY: -window.scrollY,
+    windowWidth: 1366, // important: fakes a large screen
   });
 
   const imgData = canvas.toDataURL("image/jpeg", 0.7);
@@ -25,13 +26,27 @@ export async function generatePDF(
   let heightLeft = imgHeight;
   let position = 0;
 
-  pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+  pdf.addImage(
+    imgData,
+    "PNG",
+    margin,
+    position,
+    pdfWidth - margin * 2,
+    imgHeight
+  );
   heightLeft -= pdfHeight;
 
   while (heightLeft > 0) {
     position -= pdfHeight;
     pdf.addPage();
-    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+    pdf.addImage(
+      imgData,
+      "PNG",
+      margin,
+      position,
+      pdfWidth - margin * 2,
+      imgHeight
+    );
     heightLeft -= pdfHeight;
   }
 
