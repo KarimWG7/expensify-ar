@@ -13,6 +13,15 @@ interface Filters {
   maxAmount?: number;
   categoryId?: number;
 }
+interface YearlyExpensesReportData {
+  amount: number;
+  category: {
+    id: number;
+    icon: string;
+    name: string;
+    color: string;
+  };
+}
 
 export async function getMonthlyAverage(year: number): Promise<number> {
   const supabase = await createClient();
@@ -124,7 +133,7 @@ export const getYearlyExpensesReport = async (year: number) => {
   const start = `${year}-01-01`;
   const end = `${year}-12-31`;
 
-  const { data, error } = await supabase
+  const { data: yearlyExpensesData, error } = await supabase
     .from("expenses")
     .select(
       `
@@ -144,6 +153,14 @@ export const getYearlyExpensesReport = async (year: number) => {
     console.error(error);
     throw error;
   }
+  const data: YearlyExpensesReportData[] = (yearlyExpensesData as any[]).map(
+    (exp) => ({
+      amount: exp.amount,
+      category: Array.isArray(exp.category)
+        ? exp.category[0] ?? null
+        : exp.category ?? null,
+    })
+  );
 
   let totalAmount = 0;
   const categoryMap = new Map<number, any>();

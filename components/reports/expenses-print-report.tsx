@@ -46,3 +46,4 @@ export const ExpensesPrintReport = forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+ExpensesPrintReport.displayName = "ExpensesPrintReport";
