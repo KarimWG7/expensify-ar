@@ -83,3 +83,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+.print-only {
+  page-break-inside: avoid;
+}
+
+/* globals.css or app.css */
+body,
+.card-title,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Cairo", "Tajawal", "Noto Kufi Arabic", "Arial", sans-serif;
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+.card-title {
+  text-rendering: optimizeLegibility;
+  white-space: normal;
+  word-break: normal;
+  letter-spacing: 0;
+}

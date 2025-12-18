@@ -1,7 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { Expense } from "@/lib/supabase";
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
 
 interface Filters {
   year?: number;
@@ -57,72 +58,6 @@ export async function getWeeklyAverage(
   const total = data.reduce((acc, item) => acc + Number(item.amount), 0);
   return total / 4; // approximate weekly average
 }
-
-// export async function fetchExpenses(
-//   filters: Filters,
-//   page: number,
-//   pageSize = 10
-// ) {
-//   const supabase = await createClient();
-//   let query = supabase
-//     .from("expenses")
-//     .select("*, category:category_id(name,color)")
-//     .order("date", { ascending: false });
-
-//   // Date filters
-//   if (filters.from) query = query.gte("date", filters.from);
-//   if (filters.to) query = query.lte("date", filters.to);
-//   if (filters.year && !filters.from && !filters.to)
-//     query = query
-//       .gte("date", `${filters.year}-01-01`)
-//       .lte("date", `${filters.year}-12-31`);
-//   if (filters.month && !filters.from && !filters.to && filters.year) {
-//     query = query.gte(
-//       "date",
-//       `${filters.year}-${String(filters.month).padStart(2, "0")}-01`
-//     );
-//     query = query.lte(
-//       "date",
-//       `${filters.year}-${String(filters.month).padStart(2, "0")}-31`
-//     );
-//   }
-
-//   if (filters.minAmount) query = query.gte("amount", filters.minAmount);
-//   if (filters.maxAmount) query = query.lte("amount", filters.maxAmount);
-//   if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
-
-//   const { data, error, count } = await query
-//     .range((page - 1) * pageSize, page * pageSize - 1)
-//     .maybeSingle();
-
-//   if (error) {
-//     console.error(error);
-//     return { expenses: [], total: 0, categoryData: [] };
-//   }
-
-//   const expenses = data || [];
-
-//   // Total amount
-//   const total = expenses.reduce((acc: number, e: Expense) => acc + e.amount, 0);
-
-//   // Pie chart data
-//   const categoryMap: Record<string, { value: number; color: string }> = {};
-//   expenses.forEach((e: any) => {
-//     if (!e.category) return;
-//     if (!categoryMap[e.category.name])
-//       categoryMap[e.category.name] = {
-//         value: 0,
-//         color: e.category.color || "#8884d8",
-//       };
-//     categoryMap[e.category.name].value += e.amount;
-//   });
-//   const categoryData = Object.entries(categoryMap).map(
-//     ([name, { value, color }]) => ({ name, value, color })
-//   );
-//   console.log(categoryData, expenses, total);
-
-//   return { expenses, total, categoryData };
-// }
 
 export async function getCategories() {
   const supabase = await createClient();
@@ -182,3 +117,72 @@ export async function getFilteredExpenses(filters: any) {
     category_name: exp.category?.name,
   }));
 }
+
+export const getYearlyExpensesReport = async (year: number) => {
+  const supabase = await createClient();
+
+  const start = `${year}-01-01`;
+  const end = `${year}-12-31`;
+
+  const { data, error } = await supabase
+    .from("expenses")
+    .select(
+      `
+        amount,
+        category:category_id (
+          id,
+          name,
+          icon,
+          color
+        )
+      `
+    )
+    .gte("date", start)
+    .lte("date", end);
+
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+
+  let totalAmount = 0;
+  const categoryMap = new Map<number, any>();
+
+  for (const exp of data) {
+    totalAmount += exp.amount;
+
+    if (!exp.category) continue;
+
+    const id = exp.category.id;
+
+    if (!categoryMap.has(id)) {
+      categoryMap.set(id, {
+        id,
+        name: exp.category.name,
+        icon: exp.category.icon,
+        color: exp.category.color,
+        expenses_count: 0,
+        total_expenses_amount: 0,
+      });
+    }
+
+    const cat = categoryMap.get(id);
+    cat.expenses_count += 1;
+    cat.total_expenses_amount += exp.amount;
+  }
+
+  const categories = Array.from(categoryMap.values());
+
+  const pieChartData = categories.map((cat) => ({
+    name: cat.name,
+    value: cat.total_expenses_amount,
+    color: cat.color,
+  }));
+
+  return {
+    year,
+    totalAmount,
+    categories,
+    pieChartData,
+  };
+};

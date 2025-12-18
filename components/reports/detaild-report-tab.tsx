@@ -214,20 +214,6 @@ export default function ReportsDetailed() {
             />
 
             {/* From / To Dates */}
-            {/* <Controller
-              control={control}
-              name="from"
-              render={({ field }) => (
-                <Input {...field} type="date" placeholder="من تاريخ" />
-              )}
-            />
-            <Controller
-              control={control}
-              name="to"
-              render={({ field }) => (
-                <Input {...field} type="date" placeholder="إلى تاريخ" />
-              )}
-            /> */}
             <Controller
               control={control}
               name="from"

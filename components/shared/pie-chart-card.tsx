@@ -1,57 +1,3 @@
-// "use client";
-
-// import {
-//   Card,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-//   CardContent,
-// } from "@/components/ui/card";
-// import {
-//   PieChart,
-//   Pie,
-//   Cell,
-//   Tooltip,
-//   Legend,
-//   ResponsiveContainer,
-// } from "recharts";
-
-// interface PieChartCardProps {
-//   data: any[];
-// }
-
-// export function PieChartCard({ data }: PieChartCardProps) {
-//   return (
-//     <Card>
-//       <CardHeader>
-//         <CardTitle>المصروفات حسب الفئة</CardTitle>
-//         <CardDescription>نسبة المصروفات حسب الفلاتر</CardDescription>
-//       </CardHeader>
-//       <CardContent>
-//         <ResponsiveContainer width="100%" height={300}>
-//           <PieChart>
-//             <Pie
-//               data={data}
-//               cx="50%"
-//               cy="50%"
-//               labelLine={false}
-//               label={(entry) => entry.name}
-//               dataKey="value"
-//             >
-//               {data.map((entry, index) => (
-//                 <Cell key={`cell-${index}`} fill={entry.color} />
-//               ))}
-//             </Pie>
-//             <Tooltip />
-//             <Legend />
-//           </PieChart>
-//         </ResponsiveContainer>
-//       </CardContent>
-//     </Card>
-//   );
-// }
-//////////////////////////////////////////////////////////////////////////
-
 "use client";
 
 import {
@@ -80,7 +26,7 @@ export default function ExpensesPieChart({ categoryData }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>المصروفات حسب الفئة</CardTitle>
+        <CardTitle className="card-title">المصروفات حسب الفئة</CardTitle>
         <CardDescription>نسبة المصروفات حسب الفلاتر</CardDescription>
       </CardHeader>
       <CardContent>

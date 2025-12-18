@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AveragesTab from "@/components/reports/averages-tab";
 import DetailedTab from "@/components/reports/detaild-report-tab";
+import { YearlyExpensesTab } from "@/components/reports/yearly-expenses-tab";
 
 export default function ReportsPage() {
   return (
@@ -11,6 +12,7 @@ export default function ReportsPage() {
         <TabsList>
           <TabsTrigger value="averages">المتوسطات</TabsTrigger>
           <TabsTrigger value="detailed">تقارير مفصلة</TabsTrigger>
+          <TabsTrigger value="print">طباعة تقرير سنوي</TabsTrigger>
         </TabsList>
 
         <TabsContent value="averages" className="space-y-4">
@@ -19,6 +21,9 @@ export default function ReportsPage() {
 
         <TabsContent value="detailed">
           <DetailedTab />
+        </TabsContent>
+        <TabsContent value="print">
+          <YearlyExpensesTab />
         </TabsContent>
       </Tabs>
     </div>
